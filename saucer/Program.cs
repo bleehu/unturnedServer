@@ -10,18 +10,16 @@ namespace saucer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
 
             using (Process unturnedEXE = new Process())
             {
-                //unturnedEXE.StartInfo.FileName = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Unturned\\Unturned.exe";
-                unturnedEXE.StartInfo.FileName = "C:\\Windows\\System32\\print.exe";
+                unturnedEXE.StartInfo.FileName = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Unturned\\Unturned.exe";
                 unturnedEXE.StartInfo.UseShellExecute = false;
                 unturnedEXE.StartInfo.CreateNoWindow = true;
                 unturnedEXE.StartInfo.RedirectStandardOutput = true;
                 unturnedEXE.StartInfo.RedirectStandardInput = true;
                 unturnedEXE.StartInfo.RedirectStandardError = true;
-                //unturnedEXE.StartInfo.Arguments = "-nographics -batchmode -ThreadedConsole +secureserver/saucerserver";
+                unturnedEXE.StartInfo.Arguments = "-nographics -batchmode -ThreadedConsole +secureserver/saucerserver";
                 unturnedEXE.OutputDataReceived += (sender, args) => WriteEvent(args.Data);
                 unturnedEXE.ErrorDataReceived += (sender, args) => WriteEvent(args.Data);
 
@@ -30,8 +28,8 @@ namespace saucer
                 Console.WriteLine("Starting server, please wait half a second.");
                 unturnedEXE.BeginOutputReadLine();
                 unturnedEXE.BeginErrorReadLine();
-//                unturnedEXE.StandardInput.AutoFlush = true;
-                Thread.Sleep(500);
+
+                Thread.Sleep(1000 * 60);
                 int secondsToWait = 60 * 2;
                 for (int i = 0; i < secondsToWait; i++)
                 {
@@ -56,12 +54,12 @@ namespace saucer
 
         }
 
-        private static async void serverCommand(Process serverProc, string command)
+        private static void serverCommand(Process serverProc, string command)
         {
             Console.WriteLine(String.Format("Telling Server to {0}",command));
-            await serverProc.StandardInput.WriteLineAsync(command);
-            //serverProc.StandardInput.WriteLine(command);
-            //serverProc.StandardInput.FlushAsync();
+            StreamWriter writer = serverProc.StandardInput;
+            writer.WriteLine(command);
+            writer.Flush();
         }
 
         private static void WriteEvent(string output)
