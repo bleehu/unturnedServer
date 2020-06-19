@@ -1,0 +1,4 @@
+*.vs
+saucer/bin/*
+saucer/obj/*
+*.sln
