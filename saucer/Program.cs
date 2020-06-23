@@ -10,7 +10,6 @@ namespace saucer
     {
         static void Main(string[] args)
         {
-
             using (Process unturnedEXE = new Process())
             {
                 unturnedEXE.StartInfo.FileName = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Unturned\\Unturned.exe";
@@ -19,7 +18,7 @@ namespace saucer
                 unturnedEXE.StartInfo.RedirectStandardOutput = true;
                 unturnedEXE.StartInfo.RedirectStandardInput = true;
                 unturnedEXE.StartInfo.RedirectStandardError = true;
-                unturnedEXE.StartInfo.Arguments = "-nographics -batchmode -ThreadedConsole +secureserver/saucerserver";
+                unturnedEXE.StartInfo.Arguments = "-nographics -batchmode -NoRedirectConsoleInput -NoRedirectConsoleOutput +secureserver/saucerserver";
                 unturnedEXE.OutputDataReceived += (sender, args) => WriteEvent(args.Data);
                 unturnedEXE.ErrorDataReceived += (sender, args) => WriteEvent(args.Data);
 
